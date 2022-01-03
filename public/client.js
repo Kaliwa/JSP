@@ -24,18 +24,17 @@ pointLight();
 animate();
 panel();
 skybox();
-winResize();
+onWindowResize();
+window.addEventListener("resize", onWindowResize);
 }
 
-
-function scene(){
-    scene = new THREE.Scene();
-}
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     controls.handleResize();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+function scene(){
+    scene = new THREE.Scene();
 }
 function animate(){
     requestAnimationFrame(animate);
@@ -89,18 +88,19 @@ function renderer() {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.ShadowMap;
+    renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
 }
 function controls(){
     controls = new FirstPersonControls(camera, renderer.domElement);
-    controls.movementSpeed = 400;
+    controls.movementSpeed = 1000;
     controls.lookSpeed = 0.3;
     controls.noFly = true;
-    controls.lookVertical = false;
+    controls.lookVertical = true;
 }
 function camera(){
-    camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 110000);
     camera.position.set(400,400,-400);
     camera.lookAt(0,400,0);
 
@@ -138,17 +138,14 @@ function stats(){
     stats = new Stats();
     document.body.appendChild(stats.dom)
 }
-function winResize(){
-    window.addEventListener("resize", onWindowResize);
-}
 function skybox(){
     let materialArray = [];
-    let texture_ft = new THREE.TextureLoader().load( 'textures/cube/front.jpg');
-    let texture_bk = new THREE.TextureLoader().load( 'textures/cube/back.jpg');
+    let texture_ft = new THREE.TextureLoader().load( 'textures/cube/ft.jpg');
+    let texture_bk = new THREE.TextureLoader().load( 'textures/cube/bk.jpg');
     let texture_up = new THREE.TextureLoader().load( 'textures/cube/up.jpg');
-    let texture_dn = new THREE.TextureLoader().load( 'textures/cube/down.jpg');
-    let texture_rt = new THREE.TextureLoader().load( 'textures/cube/right.jpg');
-    let texture_lf = new THREE.TextureLoader().load( 'textures/cube/left.jpg');
+    let texture_dn = new THREE.TextureLoader().load( 'textures/cube/dn.jpg');
+    let texture_rt = new THREE.TextureLoader().load( 'textures/cube/rt.jpg');
+    let texture_lf = new THREE.TextureLoader().load( 'textures/cube/lf.jpg');
     materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up }));
@@ -159,7 +156,7 @@ function skybox(){
     for (let i = 0; i < 6; i++)
       materialArray[i].side = THREE.BackSide;
        
-    let skyboxGeo = new THREE.BoxGeometry( 10000, 10000, 10000);
+    let skyboxGeo = new THREE.BoxGeometry( 100000, 100000, 100000);
     let skybox = new THREE.Mesh( skyboxGeo, materialArray );
     scene.add( skybox );
 }
