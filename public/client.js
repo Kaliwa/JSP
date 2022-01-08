@@ -23,6 +23,7 @@ ambientLight();
 pointLight();
 animate();
 panel();
+city();
 skybox();
 onWindowResize();
 window.addEventListener("resize", onWindowResize);
@@ -94,16 +95,15 @@ function renderer() {
 }
 function controls(){
     controls = new FirstPersonControls(camera, renderer.domElement);
-    controls.movementSpeed = 1000;
-    controls.lookSpeed = 0.3;
+    controls.movementSpeed = 10000;
+    controls.lookSpeed = 0.6;
     controls.noFly = true;
     controls.lookVertical = true;
 }
 function camera(){
     camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 110000);
-    camera.position.set(400,400,-400);
+    camera.position.set(10000,10000,-400);
     camera.lookAt(0,400,0);
-
 }
 function ground(){
     let groundGeometry = new THREE.BoxGeometry(100000, 0.01, 100000);
@@ -159,4 +159,36 @@ function skybox(){
     let skyboxGeo = new THREE.BoxGeometry( 100000, 100000, 100000);
     let skybox = new THREE.Mesh( skyboxGeo, materialArray );
     scene.add( skybox );
+}
+function city(){
+    let buildingTexture = new THREE.TextureLoader().load( 'textures/Building/iron.jpg');
+    let buildingGeometry = new THREE.BoxGeometry(5000,15000,5000);
+    let buildingMaterial = new THREE.MeshPhongMaterial({map:buildingTexture});
+
+    let building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+    building.position.y = 7000;
+    building.position.x = 400;
+    building.position.z = -400;
+    scene.add( building );
+
+    let midTexture = new THREE.TextureLoader().load( 'textures/Building/iron.jpg');
+    let midGeometry = new THREE.BoxGeometry(3000,12000,3000);
+    let midMaterial = new THREE.MeshPhongMaterial({map:buildingTexture});
+
+    let mid = new THREE.Mesh(midGeometry, midMaterial);
+    mid.position.y = 15500;
+    mid.position.x = 400;
+    mid.position.z = -400;
+    scene.add( mid );
+
+
+    let hatTexture = new THREE.TextureLoader().load( 'textures/Building/iron.jpg');
+    let hatGeometry = new THREE.BoxGeometry(1500,12000,1500);
+    let hatMaterial = new THREE.MeshPhongMaterial({map:hatTexture});
+
+    let hat = new THREE.Mesh(hatGeometry, hatMaterial);
+    hat.position.y = 25000;
+    hat.position.x = 400;
+    hat.position.z = -400;
+    scene.add( hat );
 }
