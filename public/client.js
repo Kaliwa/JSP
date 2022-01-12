@@ -3,6 +3,8 @@ import Stats from "/jsm/libs/stats.module.js";
 import { FirstPersonControls } from "/jsm/controls/FirstPersonControls.js";
 import { GUI } from "/jsm/libs/dat.gui.module.js";
 import { ColladaLoader } from "/jsm/loaders/ColladaLoader.js";
+import { ConvexObjectBreaker } from '/jsm/misc/ConvexObjectBreaker.js';
+import { ConvexGeometry } from '/jsm/geometries/ConvexGeometry.js';
 import { AxesHelper } from "three";
 let clock = new THREE.Clock();
 let rotationSpeed = 0.003;
@@ -98,20 +100,21 @@ function controls(){
     controls.movementSpeed = 10000;
     controls.lookSpeed = 0.6;
     controls.noFly = true;
-    controls.lookVertical = true;
+    controls.lookVertical = false;
+    
 }
 function camera(){
-    camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 110000);
-    camera.position.set(10000,10000,-400);
-    camera.lookAt(0,400,0);
+    camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 10000000);
+    camera.position.set(10000,2000,-400);
+    camera.lookAt(1000,2000,400);
 }
 function ground(){
-    let groundGeometry = new THREE.BoxGeometry(100000, 0.01, 100000);
+    let groundGeometry = new THREE.BoxGeometry(10000000, 1, 10000000);
     let groundTexture = new THREE.TextureLoader().load("textures/cobble.jpg");;
     let groundMaterial = new THREE.MeshPhongMaterial({map: groundTexture});
     groundTexture.wrapS = THREE.RepeatWrapping;
     groundTexture.wrapT = THREE.RepeatWrapping;
-    groundTexture.repeat.set(50,50);
+    groundTexture.repeat.set(10000,10000);
     ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.receiveShadow = true;
     scene.add(ground);
@@ -122,15 +125,15 @@ function axesHelper(){
     scene.add(axesHelper);
 }
 function ambientLight(){
-    ambientLight = new THREE.AmbientLight(0xffffff, 0.6, 0);
+    ambientLight = new THREE.AmbientLight(0xffffff, 0.8, 0);
     scene.add(ambientLight);
 }
 function pointLight(){
     pointLight = new THREE.PointLight(0xffffff, 0.6, 0);
-    pointLight.position.set(3000,6000,0);
+    pointLight.position.set(10000,100000,100000);
 
     pointLight.shadow.camera.near = 0.1;
-    pointLight.shadow.camera.far = 35000;
+    pointLight.shadow.camera.far = 400000;
     pointLight.castShadow = true;
     scene.add(pointLight);
 }
@@ -156,7 +159,7 @@ function skybox(){
     for (let i = 0; i < 6; i++)
       materialArray[i].side = THREE.BackSide;
        
-    let skyboxGeo = new THREE.BoxGeometry( 100000, 100000, 100000);
+    let skyboxGeo = new THREE.BoxGeometry( 10000000, 10000000, 10000000);
     let skybox = new THREE.Mesh( skyboxGeo, materialArray );
     scene.add( skybox );
 }
@@ -164,11 +167,14 @@ function city(){
     let buildingTexture = new THREE.TextureLoader().load( 'textures/Building/iron.jpg');
     let buildingGeometry = new THREE.BoxGeometry(5000,15000,5000);
     let buildingMaterial = new THREE.MeshPhongMaterial({map:buildingTexture});
+    
 
     let building = new THREE.Mesh(buildingGeometry, buildingMaterial);
-    building.position.y = 7000;
+    building.position.y = 7550;
     building.position.x = 400;
     building.position.z = -400;
+    building.receiveShadow = true;
+    building.castShadow = true;
     scene.add( building );
 
     let midTexture = new THREE.TextureLoader().load( 'textures/Building/iron.jpg');
@@ -179,6 +185,8 @@ function city(){
     mid.position.y = 15500;
     mid.position.x = 400;
     mid.position.z = -400;
+    mid.receiveShadow = true;
+    mid.castShadow = true;
     scene.add( mid );
 
 
@@ -190,5 +198,7 @@ function city(){
     hat.position.y = 25000;
     hat.position.x = 400;
     hat.position.z = -400;
+    hat.receiveShadow = true;
+    hat.castShadow = true;
     scene.add( hat );
 }
