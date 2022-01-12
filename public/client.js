@@ -10,7 +10,15 @@ let clock = new THREE.Clock();
 let rotationSpeed = 0.003;
 let rotate = false;
 
-init();
+const startButton = document.getElementById('image');
+startButton.addEventListener('click', overlayRemove);
+function overlayRemove(){
+const overlay = document.getElementById('overlay');
+    document.querySelector('html').style.backgroundColor = 'rgb(47, 146, 228)';
+    overlay.remove();
+    init();
+}
+
 
 function init() {
 

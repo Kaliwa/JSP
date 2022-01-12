@@ -7,7 +7,11 @@
         <title>Destroyed Town</title>
         <link rel="icon" href="textures/icon.png">
     
-    
+      <body>
+        <div id="overlay">
+          <div id="image"></div>
+        </div>
+      </body>
     <style>
         *,
         ::before,
@@ -18,6 +22,20 @@
         }
         html {
           background-color:grey;
+        }
+        #overlay{
+          display:flex;
+          justify-content: center;
+          align-items: center;
+          height:100vh;
+          width:100vw;
+        }
+        #image{
+          height:20vh;
+          width:20vh;
+          background-image:url("textures/js.png");
+          background-repeat: no-repeat;
+          background-size: cover;
         }
     </style>
     <script type="importmap">
