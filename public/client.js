@@ -5,7 +5,6 @@ import { GUI } from "/jsm/libs/dat.gui.module.js";
 import { ColladaLoader } from "/jsm/loaders/ColladaLoader.js";
 import { ConvexObjectBreaker } from '/jsm/misc/ConvexObjectBreaker.js';
 import { ConvexGeometry } from '/jsm/geometries/ConvexGeometry.js';
-import { AxesHelper } from "three";
 let clock = new THREE.Clock();
 let rotationSpeed = 0.003;
 let rotate = false;
@@ -28,7 +27,6 @@ camera();
 controls();
 scene();
 ground();
-axesHelper();
 ambientLight();
 pointLight();
 animate();
@@ -76,12 +74,6 @@ function panel(){
     .onChange((speed) => {
         rotationSpeed = speed;
     });
-    cameraFolder
-    .add(params, "helper")
-    .name("Axes Helper")
-    .onChange(() => {
-        AxesHelper.visible = !axesHelper.visible;
-    });
 
     const lightFolder = gui.addFolder("Lights");
     const ambientLightFolder = lightFolder.addFolder("Ambient Light");
@@ -126,11 +118,6 @@ function ground(){
     ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.receiveShadow = true;
     scene.add(ground);
-}
-function axesHelper(){
-    axesHelper = new THREE.AxesHelper(10000);
-    axesHelper.visible = false;
-    scene.add(axesHelper);
 }
 function ambientLight(){
     ambientLight = new THREE.AmbientLight(0xffffff, 0.8, 0);
